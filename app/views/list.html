@@ -1,0 +1,150 @@
+
+
+<!-- Nav Bar -->
+<div class="collapse navbar-collapse navbar-ex1-collapse">
+
+	<ul class="nav navbar-nav navbar-right">
+		<a ng-click="edit(null, $event)" class="btn btn-primary"><i class="fa fa-plus"></i> Add</a>
+		<a ng-click="toggleEditMode()" class="btn btn-primary"><i class="fa fa-edit"></i> Edit</a>
+
+	</ul>	
+
+	<div class="nav navbar-nav navbar-left">
+		<a ng-href="#" class="btn btn-default">All</a>
+		<a ng-href="#/group/General" class="btn btn-default">General</a>
+		<a ng-href="#/group/softrock" class="btn btn-default">Softrock</a>
+	</div>
+
+	<form class="navbar-form navbar-left" role="search">
+		<div class="form-group" id="searchForm">
+			<input type="text" id="q" name="q" class="form-control" placeholder="Search" style="width: 300px;">
+		</div>
+		<button type="submit" class="btn btn-default" onclick="$('#searchForm').submit();">Search</button>
+	</form>
+	
+	<script>
+		$(function() {
+			$('#q').focus();
+			$('#searchForm').on('submit', function() {
+				var q = $('#q').val();
+				
+				if (validUrl(q)) { 
+					var pattern = new RegExp('^(https?:\\/\\/)');
+					if (!pattern.test(q)) {
+						q = 'http://'+ q;
+					}
+					window.location.href = q 
+				} else {
+					window.location.href = 'http://www.google.com/#q='+ q;
+				}
+				
+				
+				return false;
+			})
+		})
+
+		
+		function validUrl(str) {
+		  var pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
+			  '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // domain name
+			  '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
+			  '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
+			  '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
+			  '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
+		  if(!pattern.test(str)) {
+			return false;
+		  } else {
+			return true;
+		  }
+		}
+	
+	
+	</script>
+	
+</div>
+
+<!-- Search Bar -->
+<div class="">
+</div>
+
+
+<!-- Set of Icon Boxes -->
+<div class="iconBox " ng-repeat="shortcut in shortcuts" ng-click="goto(shortcut)">
+	<div class="iconBox_inner" ng-show="(shortcut.iconURL.length == 0)">{{shortcut.title}}</div>
+	<img ng-src="{{shortcut.iconURL}}" ng-hide="(shortcut.iconURL.length == 0)" />
+
+	
+    <i ng-show="(settings.isEditModeActive)" class="fa fa-info-circle" ng-click="debugInfo(shortcut, $event);"></i>
+    <i ng-show="(settings.isEditModeActive)" class="fa fa-edit" ng-click="edit(shortcut, $event);"></i>
+	<i ng-show="(settings.isEditModeActive)" class="fa fa-times" ng-click="delete(shortcut, $event);"></i>
+</div>
+
+
+
+
+<!--- ======================================================================================= --->
+<!-- Modal for Adding / Editing -->
+<div id="editShortcutModal" class="modal fade">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title">Modal title</h4>
+			</div>
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-md-4">
+						<!-- preview iconbox -->
+						<div class="iconBox ">
+							<div class="iconBox_inner" ng-show="(shortcutChanged.iconURL.length == 0)">{{shortcutChanged.title}}</div>
+							<img ng-src="{{shortcutChanged.iconURL}}" ng-hide="(shortcutChanged.iconURL.length == 0)" />
+						</div>
+					</div>
+
+					<div class="col-md-8">
+						<form  role="form">
+                            <input type="hidden" name="userID" value="{{shortcutChanged.userID}}" />
+							<div class="form-group">
+								<label for="">Title</label>
+								<input type="text" class="form-control" ng-model="shortcutChanged.title" placeholder="Input field">
+							</div>
+
+							<div class="form-group">
+								<label for="">Group</label>
+								<input type="text" class="form-control" ng-model="shortcutChanged.groupName" placeholder="Input field">
+							</div>
+
+							<div class="form-group">
+								<label for="">Link URL</label>
+								<input type="text" class="form-control" ng-model="shortcutChanged.linkURL" placeholder="Input field">
+							</div>
+
+							<div class="form-group">
+								<label for="">Icon URL</label>
+								<input type="text" class="form-control" ng-model="shortcutChanged.iconURL" placeholder="Input field">
+							</div>
+
+
+						</form>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal" ng-click="editCancel()">Close</button>
+				<button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="editSave()">Save changes</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+
+<!--
+<h3>Recipe List</h3>
+<ul class="recipes">
+	<li ng-repeat="recipe in recipes">
+		<div><a ng-href="/#/view/{{recipe.id}}">{{recipe.title}}</a></div>
+	</li>
+</ul>
+
+-->

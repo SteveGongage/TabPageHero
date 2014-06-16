@@ -1,0 +1,38 @@
+<style>
+	.form-group i { right: 20px; position: absolute; font-size: 1.2em; line-height: 2em; }
+</style>
+
+
+<div>{{debug}}</div>
+
+
+<form role="form" ng-submit="saveChanges()" class="form-horizontal">
+	<div class="form-group">
+		<label class="col-sm-2 control-label">Title</label>
+		<div class="col-sm-4">
+			<input type="text" ng-model="shortcut.title" class="form-control" placeholder="Enter a Title" />
+		</div>
+	</div>
+	
+	<div class="form-group">
+		<label class="col-sm-2 control-label">Link URL</label>
+		<div class="col-sm-4">
+			<i class="fa fa-times" ng-click="shortcut.linkURL = '';"></i>
+			<input type="text" ng-model="shortcut.linkURL" class="form-control" placeholder="http://" />
+		</div>
+	</div>
+	
+	<div class="form-group">
+		<label class="col-sm-2 control-label">Icon URL</label>
+		<div class="col-sm-4">
+			<i class="fa fa-times" ng-click="shortcut.iconURL = '';"></i>
+			<input type="text" ng-model="shortcut.iconURL" class="form-control" placeholder="http://" />
+		</div>
+	</div>
+	
+	<div class="form-group">
+		<div class="col-sm-4 col-sm-offset-2">
+			<button type="submit" class="btn btn-default">Submit</button>
+		</div>
+	</div>
+</form>
